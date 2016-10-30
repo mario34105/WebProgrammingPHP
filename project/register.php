@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title></title>
     <style>
-
+    .wrapper{
+        width:50%;
+        padding:0px;
+        }
         html{
             overflow:hidden;
         }
@@ -26,6 +29,15 @@
             padding-top:5px;padding-bottom:5px;padding-left:123px;padding-right:122px;
             border:none;
             text-decoration:none;
+        }
+        .footer{
+        position:fixed;
+        background:black;
+        text-align:center;
+        width:100%;
+        margin-top:-930px;
+        left:0px;
+        right:0px;
         }
 
     </style>
@@ -50,7 +62,7 @@ if (isset($_POST["name"]) && isset($_POST["birth"]) && isset($_POST["gender"]) &
 
     if($_POST["password"] == $_POST["confirm"])
     {
-        $password  = $_POST["password"];    
+        $password  = md5($_POST["password"]);    
     }
     else{
         die("<p>password tidak cocok dengan confirm</p>");

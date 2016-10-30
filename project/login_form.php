@@ -46,9 +46,9 @@ $(document).ready(function(){
 			background-size:cover;
 		}
 		.wrapper{
-		width: 100%;
+		width: 50%;
 		padding:0px;
-		
+		margin:auto;
 		}
 		.login{
 			width:400px;
@@ -118,6 +118,7 @@ if (!isset($_POST["username"]) ||
 	!isset($_POST["password"])) {
 ?>
 <div class="wrapper" id="login">
+
 	<div class="login" >
 		<form method="post" action="login_form.php">
 	<div class="title" style="text-align:center;">
@@ -141,6 +142,7 @@ if (!isset($_POST["username"]) ||
 			<br>
 				<a href="#register">Register</a>
 			</div>
+			
 		</div>
 		</form>
 
@@ -187,7 +189,6 @@ if (!isset($_POST["username"]) ||
 		</div>
 		</form>
 	</div>
-
 	<div class="footer">
 		<div class="footercontent" style="margin:auto;color:grey">
 			<p>&copy;Social 2016</p>
@@ -202,20 +203,25 @@ if (!isset($_POST["username"]) ||
 //cek username dan password valid , jika valid loginkan user dan 
 //redirect ke content
 	$conn = konek_db();
-	$query = $conn->prepare("select *  from user where username ='$username' AND password = '$password'");
+	$query = $conn->prepare("select *  from user where username ='$username'");
 
 	$result = $query->execute();
 	$rows = $query -> get_result();
 	$row = $rows->fetch_array();
 
-	if(!empty($row['username']) && !empty($row['password']))
+	if(!empty($row['username']))
 	{
+		if(md5($password) == $row['password']){
 		$_SESSION['username'] = $row['password'];
 		//login user
 		$_SESSION["username"] = $username;
 		//redirect ke content
-		header("location: content.php");
+		header("location: content.php?user_id=".$row['user_id']);
+	}
+	else{
+		echo "<p>Username/Password Salah</p>";
 		//jika username/paswword salah ditampilkan warning
+	}
 	} else {
 		echo "<p>Username/Password Salah</p>";
 	}	
