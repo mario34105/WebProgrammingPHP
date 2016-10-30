@@ -72,7 +72,7 @@ $(document).ready(function(){
 		background:black;
 		text-align:center;
 		width:100%;
-		margin-top:-930px;
+		bottom:0px;
 		left:0px;
 		right:0px;
 		}
@@ -156,7 +156,8 @@ if (!isset($_POST["username"]) ||
 		<div class="entry" style="margin-top:-20px">
 			<div>
 				<label style="font-weight:bold;">name :</label>
-				<input type="text" name="name" style="margin-left:36px;padding-right:33px;padding-top:2.5px;padding-bottom:2.5px">
+				<input type="text" name="first_name" placeholder ="first" style="margin-left:5px;margin-left:36px;width:95px;padding-top:2.5px;padding-bottom:2.5px">
+				<input type="text" name="last_name" placeholder ="last" style="margin-left:5px;width:95px;padding-top:2.5px;padding-bottom:2.5px">
 			</div>
 			<div style="margin-top:10px;">
 				<label style="font-weight:bold;">Birth :</label>
@@ -189,11 +190,7 @@ if (!isset($_POST["username"]) ||
 		</div>
 		</form>
 	</div>
-	<div class="footer">
-		<div class="footercontent" style="margin:auto;color:grey">
-			<p>&copy;Social 2016</p>
-		</div>
-	</div>
+	
 <?php
 //jika belum login, dan sudah kirim username dan password
 // cek apakah username dan password valid
@@ -219,14 +216,21 @@ if (!isset($_POST["username"]) ||
 		header("location: content.php?user_id=".$row['user_id']);
 	}
 	else{
-		echo "<p>Username/Password Salah</p>";
+		echo "<p style='font-size:50px;text-align:center;margin-top:250px;'>Username/Password <b style='color:orange'>Salah</b></p>";
+		echo  "<a href ='login_form.php' style='padding-left:135px;padding-right:135px;margin-left:520px'>Back</a>";
 		//jika username/paswword salah ditampilkan warning
 	}
 	} else {
-		echo "<p>Username/Password Salah</p>";
+		echo "<p style='font-size:50px;text-align:center;margin-top:250px;'>Username/Password <b style='color:orange'>Salah</b></p>";
+		echo  "<a href ='login_form.php' style='padding-left:135px;padding-right:135px;margin-left:520px'>Back</a>";
 	}	
 }
 ?>
+	</div>
+	<div class="footer">
+		<div class="footercontent" style="margin:auto;color:grey">
+			<p>&copy;Social 2016</p>
+		</div>
 	</div>
 </div>
 </body>

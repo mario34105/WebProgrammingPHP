@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Register</title>
     <style>
     .wrapper{
         width:50%;
@@ -35,7 +35,7 @@
         background:black;
         text-align:center;
         width:100%;
-        margin-top:-930px;
+        bottom:0px;
         left:0px;
         right:0px;
         }
@@ -46,9 +46,10 @@
 <?php
 require_once "db.php";
 
-if (isset($_POST["name"]) && isset($_POST["birth"]) && isset($_POST["gender"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["confirm"])) {
+if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["birth"]) && isset($_POST["gender"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["confirm"])) {
 
-    $name  = $_POST["name"];
+    $firstname  = $_POST["first_name"];
+    $lastname  = $_POST["last_name"];
     $birth = $_POST["birth"];
     $gender  = $_POST["gender"];
     $username  = $_POST["username"];
@@ -65,6 +66,9 @@ if (isset($_POST["name"]) && isset($_POST["birth"]) && isset($_POST["gender"]) &
         $password  = md5($_POST["password"]);    
     }
     else{
+        echo"<div style='width:300px;margin:auto;margin-top:325px;'>";
+        echo"<br>";
+        echo"<a href ='login_form.php#register' style='bottom:-100px;padding-left:135px;padding-right:135px;'>Back</a></div>";
         die("<p>password tidak cocok dengan confirm</p>");
     }
     $conn = konek_db();
@@ -72,7 +76,7 @@ if (isset($_POST["name"]) && isset($_POST["birth"]) && isset($_POST["gender"]) &
     // bangun query yang akan dieksekusi menggunakan prepared statement
     // simbol ? pada statement query akan diisikan dengan parameter query
     // sesuai dengan parameter pada pemanggilan method bind_param
-    $query = $conn->prepare("insert into user(username,password,name,birth,gender) values(?,?,?,?,?)");
+    $query = $conn->prepare("insert into user(username,password,first_name,last_name,birth,gender) values(?,?,?,?,?,?)");
     // pasangkan parameter query dengan method bind_param
     // parameter pertama adalah string yang berisikan format data 
     // masing-masing parameter query
@@ -82,7 +86,7 @@ if (isset($_POST["name"]) && isset($_POST["birth"]) && isset($_POST["gender"]) &
     // b -- blob/binary
     // parameter ke-dua dan seterusnya adalah parameter query
     // yang akan dipasangkan pada statement query
-    $query->bind_param("sssss",$username,$password,$name,$birth,$gender);
+    $query->bind_param("ssssss",$username,$password,$firstname,$lastname,$birth,$gender);
 
     // jalankan query
     $result = $query->execute();
@@ -104,6 +108,11 @@ if (isset($_POST["name"]) && isset($_POST["birth"]) && isset($_POST["gender"]) &
     <div style="width:300px;margin:auto;margin-top:-40px">
         <br>
         <a href ="login_form.php#register" style="padding-left:135px;padding-right:135px">Back</a>
+    </div>
+    <div class="footer">
+        <div class="footercontent" style="margin:auto;color:grey">
+            <p>&copy;Social 2016</p>
+        </div>
     </div>
 </body>
 </html>

@@ -19,7 +19,7 @@ $data = $rows->fetch_object();
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Contoh Session</title>
+	<title>My Profile</title>
 	<style>
 	.wrapper{
         width:50%;
@@ -41,7 +41,7 @@ $data = $rows->fetch_object();
             color:white;
             border-radius:5px;
             font-size:15px;
-            padding-top:5px;padding-bottom:5px;padding-left:50px;padding-right:50px;
+            padding-top:5px;padding-bottom:5px;padding-left:25px;padding-right:25px;
             border:none;
             text-decoration:none;
         }
@@ -50,7 +50,7 @@ $data = $rows->fetch_object();
 		background:black;
 		text-align:center;
 		width:100%;
-		margin-top:500px;
+		bottom:0px;
 		left:0px;
 		right:0px;
 		}
@@ -66,6 +66,7 @@ $data = $rows->fetch_object();
 		<div class="option" style="margin-top:-35px">
 			<a href="edit.php?user_id=<?php echo $data->user_id; ?>">Change Password</a>
 			<a href="logout.php">Logout</a>
+			<a href="delete.php?user_id=<?php echo $data->user_id;?>">Delete Acc</a>
 		</div>
 	</div>
 	<div class="content">
