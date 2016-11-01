@@ -67,9 +67,9 @@ $result = $query->execute();
 if(!$result)
     die("<p style='font-size:50px;text-align:center;margin-top:250px;'>Gagal <b style='color:orange'>query !</b></p>");
 $rows = $query->get_result();
-$row = $rows->fetch_array();
+$row = $rows->fetch_object();
 
-if ($row['user_id'] == null){
+if ($row->user_id == null){
   $query = $conn->prepare("insert into profile(user_id) values(?)");
   $query->bind_param("s",$id);
   $result = $query->execute();
@@ -90,6 +90,7 @@ if(! isset($_POST["first_name"]) ||
    ! isset($_POST["telp"]))
     die("<p style='font-size:50px;text-align:center;margin-top:250px;'>Data Profile <b style='color:orange'>tidak lengkap !</b></p>");
 $first = $_POST["first_name"];
+
 $last = $_POST["last_name"];
 $birth = $_POST["birth"];
 $message = $_POST["message"];
@@ -98,38 +99,76 @@ $hobby = $_POST["hobby"];
 $education = $_POST["education"];
 $email = $_POST["email"];
 $telp = $_POST["telp"];
-$profile_id=$row['profile_id'];
+$profile_id = '';
+
 
 if($first==null){
-  $first = $row['first_name'];
+  $first = $row->first_name;
 }
 if($last==null){
-  $last = $row['last_name'];
+  $last = $row->last_name;
 }
 if($birth==null){
-  $birth = $row['birth'];
+  $birth = $row->birth;
 }
 if($message==null){
-  $message = $row['message'];
+  $message = $row->message;
 }
 if($address==null){
-  $address = $row['address'];
+  $address = $row->address;
 }
 if($hobby==null){
-  $hobby = $row['hobby'];
+  $hobby = $row->hobby;
 }
 if($education==null){
-  $education = $row['education'];
+  $education = $row->education;
 }
 if($email==null){
-  $email = $row['email'];
+  $email = $row->email;
 }
 if($telp==null){
-  $telp = $row['telp'];
+  $telp = $row->telp;
+}
+if($profile_id==''){
+  $profile_id = $row->profile_id;
 }
 
-$query = $conn->prepare("update profile set first_name=?,last_name=?,birth=?,message=?,address=?,hobby=?,education=?,email=?,telp=? where profile_id=?");
-$query->bind_param("sssssssssi",$first,$last,$birth,$message,$address,$hobby,$education,$email,$telp,$profile_id);
+$file_gambar = "";
+
+if(isset($_FILES["image"])) {
+
+  if($_FILES["image"]["error"] == 0 ){
+
+    if($row->image == null){
+      $file_gambar = "images/no.png";
+    }
+
+    $image = $row->image;
+
+    if($image !=null && file_exists("images/$image")){
+      unlink("images/$image");
+    }
+
+  //salin gambar yang diupload ke folder images
+
+    if(isset($_FILES["image"])) { //1
+      if($_FILES["image"]["error"] == 0) {//2
+        $image = $_FILES["image"];
+
+        $extension = new SplFileInfo($image["name"]);
+        $extension = $extension -> getExtension();
+        $file_gambar = $first . "." .$extension;
+        copy($image["tmp_name"] , "images/" . $file_gambar);
+          }//2
+      }//1
+  }
+    else {
+      $file_gambar = $row->image;
+    }
+}
+
+$query = $conn->prepare("update profile set first_name=?,last_name=?,birth=?,message=?,address=?,hobby=?,education=?,email=?,telp=?,image=? where profile_id=?");
+$query->bind_param("ssssssssssi",$first,$last,$birth,$message,$address,$hobby,$education,$email,$telp,$file_gambar,$profile_id);
 $result = $query->execute();
 
 if($result){
@@ -143,7 +182,7 @@ else{
 ?>
 <div style="width:300px;margin:auto;margin-top:-40px">
         <br>
-        <a href ="content.php?user_id=<?php echo $row['user_id'] ?>" style="padding-left:135px;padding-right:135px">Back</a>
+        <a href ="content.php?user_id=<?php echo $row->user_id ?>" style="padding-left:135px;padding-right:135px">Back</a>
     </div>
 </body>
 </html>

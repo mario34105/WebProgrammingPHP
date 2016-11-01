@@ -7,7 +7,7 @@
         width:400px;
         padding:0px;
         margin:auto;
-        margin-top:-80px;
+        margin-top:-100px;
         }
 
         body{
@@ -112,6 +112,7 @@ $data = $rows->fetch_object();
 		<div class="label">
 			<label>Education : </label>
 			<Select name = "education" style="margin-left:37px;padding-left:10px;padding-right:10px">
+				<option value=""></option>
 				<option value="smp">SMP</option>
 				<option value="sma">SMA</option>
 				<option value="s1">S1</option>
@@ -126,6 +127,10 @@ $data = $rows->fetch_object();
 		<div class="label">
 			<label>Telp : </label>
 			<input type="text" name="telp" style="margin-left:83px;padding-right:34px;padding-top:2.5px;padding-bottom:2.5px">
+		</div>
+		<div class="label">
+			<label>Profile Picture : </label>
+			<input type="file" name="image" style="margin-left:8px;padding-top:2.5px;padding-bottom:2.5px" placeholder="Upload Image" accept=".jpg,.png,.gif">
 		</div>
 		<div class="submit" style="margin-left:15px"> <input type="submit" value = "update"></div>
 		<a href="content.php?user_id=<?php echo $data->user_id ?>" style="margin-left:15px">Cancel</a>

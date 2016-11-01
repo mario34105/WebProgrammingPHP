@@ -102,7 +102,14 @@ $data = $rows->fetch_object();
 	<div class="content" style="margin-top:100px">
 		<div class="titlename">
 			<div class="image">
-				<img src="images/no.png">
+				<?php
+					if( $data->image == null || $data->image == "")
+						$url_image="images/no.png";
+					else
+						$url_image="images/$data->image";
+					?>
+				
+					<img src = '<?php echo $url_image ?>'>
 			</div>
 			<div class="name">
 				<p style="font-size:60px;text-align:center"><?php echo $data->first_name;?> <?php echo $data->last_name;?></p>
