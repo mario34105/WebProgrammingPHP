@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+  <style>
+  .wrapper{
+        width:50%;
+        padding:0px;
+        margin:auto;
+        }
+
+        body{
+            font-family:Alcubierre;
+            color:white;
+            background : linear-gradient(0deg, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.7) 100%), url(images/cover.jpg) 0 0 ;
+            background-size:cover;
+        }
+
+        a{
+            font-family:Alcubierre;
+            font-weight:bold;
+            background:orange;
+            color:white;
+            border-radius:5px;
+            font-size:20px;
+            padding-top:5px;padding-bottom:5px;
+            border:none;
+            text-decoration:none;
+        }
+
+        .footer{
+          position:fixed;
+          background:black;
+          text-align:center;
+          width:100%;
+          bottom:0px;
+          left:0px;
+          right:0px;
+        }
+
+  </style>
+</head>
+<body>
+
+<div class="footer">
+    <div class="footercontent" style="margin:auto;color:grey">
+      <p>&copy;Social 2016</p>
+    </div>
+</div>
+
+<?php
+require_once "db.php";
+
+$conn = konek_db();
+
+if(! isset($_GET["user_id"]))
+    die("<p style='font-size:50px;text-align:center;margin-top:250px;'>Tidak ada <b style='color:orange'>id user !</b></p>");
+
+$id = $_GET["user_id"];
+$query = $conn -> prepare("select * from profile where user_id=?");
+$query->bind_param("i",$id);
+$result = $query->execute();
+
+
+
+
+if(!$result)
+    die("<p style='font-size:50px;text-align:center;margin-top:250px;'>Gagal <b style='color:orange'>query !</b></p>");
+$rows = $query->get_result();
+$row = $rows->fetch_array();
+
+if ($row['user_id'] == null){
+  $query = $conn->prepare("insert into profile(user_id) values(?)");
+  $query->bind_param("s",$id);
+  $result = $query->execute();
+}
+
+if($rows->num_rows==0)
+    die("<p style='font-size:50px;text-align:center;margin-top:250px;'>User <b style='color:orange'>tidak ditemukan !</b></p>");
+
+
+if(! isset($_POST["first_name"]) ||
+   ! isset($_POST["last_name"]) ||
+   ! isset($_POST["birth"]) ||
+   ! isset($_POST["message"]) ||
+   ! isset($_POST["address"]) ||
+   ! isset($_POST["hobby"]) ||
+   ! isset($_POST["education"]) ||
+   ! isset($_POST["email"]) ||
+   ! isset($_POST["telp"]))
+    die("<p style='font-size:50px;text-align:center;margin-top:250px;'>Data Profile <b style='color:orange'>tidak lengkap !</b></p>");
+$first = $_POST["first_name"];
+$last = $_POST["last_name"];
+$birth = $_POST["birth"];
+$message = $_POST["message"];
+$address = $_POST["address"];
+$hobby = $_POST["hobby"];
+$education = $_POST["education"];
+$email = $_POST["email"];
+$telp = $_POST["telp"];
+$profile_id=$row['profile_id'];
+
+if($first==null){
+  $first = $row['first_name'];
+}
+if($last==null){
+  $last = $row['last_name'];
+}
+if($birth==null){
+  $birth = $row['birth'];
+}
+if($message==null){
+  $message = $row['message'];
+}
+if($address==null){
+  $address = $row['address'];
+}
+if($hobby==null){
+  $hobby = $row['hobby'];
+}
+if($education==null){
+  $education = $row['education'];
+}
+if($email==null){
+  $email = $row['email'];
+}
+if($telp==null){
+  $telp = $row['telp'];
+}
+
+$query = $conn->prepare("update profile set first_name=?,last_name=?,birth=?,message=?,address=?,hobby=?,education=?,email=?,telp=? where profile_id=?");
+$query->bind_param("sssssssssi",$first,$last,$birth,$message,$address,$hobby,$education,$email,$telp,$profile_id);
+$result = $query->execute();
+
+if($result){
+  echo"<p style='font-size:50px;text-align:center;margin-top:250px;'>Profile User berhasil <b style='color:orange'>di update</b></p>";
+} 
+else{
+ header("refresh:200;url=profile.php?user_id=".$row['user_id']);
+    die("<p style='font-size:50px;text-align:center;margin-top:250px;'>Gagal mengupdate <b style='color:orange'>data user</b></p>");
+}
+  
+?>
+<div style="width:300px;margin:auto;margin-top:-40px">
+        <br>
+        <a href ="content.php?user_id=<?php echo $row['user_id'] ?>" style="padding-left:135px;padding-right:135px">Back</a>
+    </div>
+</body>
+</html>

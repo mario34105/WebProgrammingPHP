@@ -9,7 +9,7 @@ if(!isset ($_SESSION["username"])){
 
 $conn=konek_db();
 $id = ($_GET["user_id"]);
-$query = $conn -> prepare("select * from user where user_id = ?");
+$query = $conn -> prepare("select * from profile where profile_id = ?");
 $query -> bind_param("i" , $id);
 $result = $query ->execute();
 $rows = $query->get_result();
@@ -57,6 +57,36 @@ $data = $rows->fetch_object();
 		.option{
 			float:right;
 		}
+		.image{
+			width:30%;
+		}
+		.image img{
+			max-height: 200px;
+			max-width: 200px;
+			height:auto;
+			width:auto;
+		}
+		.name{
+			width:60%;
+			margin-left:270px;
+			margin-top:-230px;
+		}
+		.edit a{
+			background:none;
+			border: 1px solid white;
+			padding-left:50px;
+			padding-right:50px;
+			font-size:25px;
+			border-radius:10px;
+		}
+		.about{
+			margin-top:100px;
+		}
+		.info{
+			width:400px;
+			margin:auto;
+			padding-bottom:100px;
+		}
 	</style>
 </head>
 <body>
@@ -69,8 +99,33 @@ $data = $rows->fetch_object();
 			<a href="delete.php?user_id=<?php echo $data->user_id;?>">Delete Acc</a>
 		</div>
 	</div>
-	<div class="content">
-		
+	<div class="content" style="margin-top:100px">
+		<div class="titlename">
+			<div class="image">
+				<img src="images/no.png">
+			</div>
+			<div class="name">
+				<p style="font-size:60px;text-align:center"><?php echo $data->first_name;?> <?php echo $data->last_name;?></p>
+				<hr style="border-color:orange;margin-top:-50px">
+				<p style="text-align:center;font-size:30px;margin-top:-1px"><?php echo $data->message;?></p>
+			</div>
+		</div>
+
+		<div class="edit" style="margin:auto;margin-top:70px;margin-left:230px">
+			<a href="profile.php?user_id=<?php echo $data->user_id;?>">Edit Profile</a>
+		</div>
+		<div class="about">
+		<p style="font-size:50px;text-align:center">About <?php echo $data->first_name;?></p>
+		<hr style="border-color:orange;margin-top:-50px;width:60%">
+			<div class="info">
+				<p style="font-size:30px">Birth Date : <?php echo $data->birth?></p>
+				<p style="font-size:30px">Address : <?php echo $data->address?></p>
+				<p style="font-size:30px">Hobby : <?php echo $data->hobby?></p>
+				<p style="font-size:30px">Education : <?php echo $data->education?></p>
+				<p style="font-size:30px">Email : <?php echo $data->email?></p>
+				<p style="font-size:30px">Telp : <?php echo $data->telp?></p>
+			</div>
+		</div>
 	</div>
 </div>
 	<div class="footer">
