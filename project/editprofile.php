@@ -69,12 +69,6 @@ if(!$result)
 $rows = $query->get_result();
 $row = $rows->fetch_object();
 
-if ($row->user_id == null){
-  $query = $conn->prepare("insert into profile(user_id) values(?)");
-  $query->bind_param("s",$id);
-  $result = $query->execute();
-}
-
 if($rows->num_rows==0)
     die("<p style='font-size:50px;text-align:center;margin-top:250px;'>User <b style='color:orange'>tidak ditemukan !</b></p>");
 
@@ -90,7 +84,6 @@ if(! isset($_POST["first_name"]) ||
    ! isset($_POST["telp"]))
     die("<p style='font-size:50px;text-align:center;margin-top:250px;'>Data Profile <b style='color:orange'>tidak lengkap !</b></p>");
 $first = $_POST["first_name"];
-
 $last = $_POST["last_name"];
 $birth = $_POST["birth"];
 $message = $_POST["message"];
@@ -180,9 +173,9 @@ else{
 }
   
 ?>
-<div style="width:300px;margin:auto;margin-top:-40px">
+<div style="width:400px;margin:auto;margin-top:-40px">
         <br>
-        <a href ="content.php?user_id=<?php echo $row->user_id ?>" style="padding-left:135px;padding-right:135px">Back</a>
+        <a href ="content.php?user_id=<?php echo $row->user_id ?>" style="padding-left:135px;padding-right:135px">Go to Profile</a>
     </div>
 </body>
 </html>

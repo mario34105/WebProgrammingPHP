@@ -69,7 +69,7 @@ $conn=konek_db();
 
 //cari data produk yang akan di update
 $id = $_GET["user_id"];
-$query = $conn -> prepare("select * from user where user_id = ?");
+$query = $conn -> prepare("select * from profile where user_id = ?");
 $query -> bind_param("i" , $id);
 $result = $query ->execute();
 

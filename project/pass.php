@@ -91,10 +91,10 @@ $result = $query->execute();
 
 if($result)
 	echo"<p style='font-size:50px;text-align:center;margin-top:250px;'>Data user berhasil <b style='color:orange'>di update</b></p>";
-else
+else{
   header("refresh:3;url=edit.php?user_id=".$row['user_id']);
 	die("<p style='font-size:50px;text-align:center;margin-top:250px;'>Gagal mengupdate <b style='color:orange'>data user</b></p>");
-  
+  }
 ?>
 <div style="width:300px;margin:auto;margin-top:-40px">
         <br>

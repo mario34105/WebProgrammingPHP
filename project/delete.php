@@ -1,3 +1,7 @@
+<?php
+session_start();
+session_destroy();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,12 +60,13 @@ if(!$result)
 	die("gagal query");
 
 $rows = $query->get_result();
-if($rows->num_rows==0)
+if($rows->num_rows==0){
 		echo"<div style='width:300px;margin:auto;margin-top:325px;'>";
         echo"<br>";
         echo"<a href ='login_form.php' style='font-size:20px;bottom:-100px;padding-left:135px;padding-right:135px;'>Back</a></div>";
         echo"<p style='position:fixed;background:black;text-align:center;width:100%;bottom:0px;left:0px;right:0px;margin:auto;color:grey;padding-top:15px;padding-bottom:15px'>&copy;Social 2016</p>";
 	die("<p style='font-size:50px;text-align:center;margin-top:-120px;'>User tidak <b style='color:orange'>ditemukan !</b></p>");
+}
 
 $query = $conn->prepare("delete from user where user_id=?");
 $query->bind_param("i",$id);
@@ -75,8 +80,22 @@ $result = $query->execute();
 
 
 if($result){
+    $query = $conn->prepare("select * from profile where profile_id=?");
+    $query->bind_param("i",$id);
+    $result = $query->execute();
+    $rows = $query->get_result();
+    $data = $rows->fetch_object();
+    $image = $data->image;
+
+    if($image != null || file_exists("images/$image"))
+    unlink("images/$image");
+
+    $query = $conn->prepare("delete from profile where profile_id=?");
+    $query->bind_param("i",$id);
+    $result = $query->execute();
 	echo"<p style='font-size:50px;text-align:center;margin-top:250px;'>Data user berhasil <b style='color:orange'>dihapus !</b></p>";
 }
+
 else{
 	echo"<p style='font-size:50px;text-align:center;margin-top:250px;'>Data user gagal <b style='color:orange'>dihapus !</b></p>";
 }

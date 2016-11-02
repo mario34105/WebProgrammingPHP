@@ -46,11 +46,10 @@
 <?php
 require_once "db.php";
 
-if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["birth"]) && isset($_POST["gender"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["confirm"])) {
+if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["gender"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["confirm"])) {
 
     $firstname  = $_POST["first_name"];
     $lastname  = $_POST["last_name"];
-    $birth = $_POST["birth"];
     $gender  = $_POST["gender"];
     $username  = $_POST["username"];
 
@@ -76,7 +75,7 @@ if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["b
     // bangun query yang akan dieksekusi menggunakan prepared statement
     // simbol ? pada statement query akan diisikan dengan parameter query
     // sesuai dengan parameter pada pemanggilan method bind_param
-    $query = $conn->prepare("insert into user(username,password,first_name,last_name,birth,gender) values(?,?,?,?,?,?)");
+    $query = $conn->prepare("insert into user(username,password,first_name,last_name,gender) values(?,?,?,?,?)");
     // pasangkan parameter query dengan method bind_param
     // parameter pertama adalah string yang berisikan format data 
     // masing-masing parameter query
@@ -86,7 +85,7 @@ if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["b
     // b -- blob/binary
     // parameter ke-dua dan seterusnya adalah parameter query
     // yang akan dipasangkan pada statement query
-    $query->bind_param("ssssss",$username,$password,$firstname,$lastname,$birth,$gender);
+    $query->bind_param("sssss",$username,$password,$firstname,$lastname,$gender);
 
     // jalankan query
     $result = $query->execute();

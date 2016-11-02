@@ -159,10 +159,6 @@ if (!isset($_POST["username"]) ||
 				<input type="text" name="first_name" placeholder ="first" style="margin-left:5px;margin-left:36px;width:95px;padding-top:2.5px;padding-bottom:2.5px">
 				<input type="text" name="last_name" placeholder ="last" style="margin-left:5px;width:95px;padding-top:2.5px;padding-bottom:2.5px">
 			</div>
-			<div style="margin-top:10px;">
-				<label style="font-weight:bold;">Birth :</label>
-				<input type="date" name="birth" style="margin-left:52px;padding-top:2.5px;padding-bottom:2.5px;">
-			</div>
 			<div style="margin-top:10px">
 				<label style="font-weight:bold;">gender :</label>
 				<input type="radio" name="gender" value="male" style="margin-left:27px;padding-right:33px;padding-top:2.5px;padding-bottom:2.5px">Male

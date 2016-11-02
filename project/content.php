@@ -15,6 +15,14 @@ $result = $query ->execute();
 $rows = $query->get_result();
 $data = $rows->fetch_object();
 
+if ($data->user_id == null){
+  $query = $conn->prepare("insert into profile(user_id) values(?)");
+  $query->bind_param("s",$id);
+  $result = $query->execute();
+  header("location:profile.php?user_id=$id");
+}
+
+
 ?>
 <!DOCTYPE html>
 <html>
