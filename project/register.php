@@ -43,6 +43,11 @@
     </style>
 </head>
 <body>
+   <div class="footer">
+        <div class="footercontent" style="margin:auto;color:grey">
+            <p>&copy;Social 2016</p>
+        </div>
+    </div>
 <?php
 require_once "db.php";
 
@@ -68,7 +73,7 @@ if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["g
         echo"<div style='width:300px;margin:auto;margin-top:325px;'>";
         echo"<br>";
         echo"<a href ='login_form.php#register' style='bottom:-100px;padding-left:135px;padding-right:135px;'>Back</a></div>";
-        die("<p>password tidak cocok dengan confirm</p>");
+        die("<p style='font-size:50px;text-align:center;margin-top:-120px'>password tidak cocok dengan <b style='color:orange'>confirm</b></p>");
     }
     $conn = konek_db();
 
@@ -108,10 +113,6 @@ if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["g
         <br>
         <a href ="login_form.php#register" style="padding-left:135px;padding-right:135px">Back</a>
     </div>
-    <div class="footer">
-        <div class="footercontent" style="margin:auto;color:grey">
-            <p>&copy;Social 2016</p>
-        </div>
-    </div>
+ 
 </body>
 </html>

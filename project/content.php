@@ -114,7 +114,7 @@ if ($data->user_id == null){
 					if( $data->image == null || $data->image == "")
 						$url_image="images/no.png";
 					else
-						$url_image="images/$data->image";
+						$url_image="images/$data->first_name/$data->image";
 					?>
 				
 					<img src = '<?php echo $url_image ?>'>

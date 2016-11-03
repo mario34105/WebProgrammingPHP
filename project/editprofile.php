@@ -151,7 +151,8 @@ if(isset($_FILES["image"])) {
         $extension = new SplFileInfo($image["name"]);
         $extension = $extension -> getExtension();
         $file_gambar = $first . "." .$extension;
-        copy($image["tmp_name"] , "images/" . $file_gambar);
+        mkdir("images/$first");
+        copy($image["tmp_name"] , "images/$first/". $file_gambar);
           }//2
       }//1
   }
