@@ -8,18 +8,30 @@ if(!isset ($_SESSION["username"])){
 }
 
 $conn=konek_db();
-$id = ($_GET["user_id"]);
-$query = $conn -> prepare("select * from profile where profile_id = ?");
-$query -> bind_param("i" , $id);
+
+$id = $_SESSION["username"];
+$query = $conn -> prepare("select *
+FROM user
+LEFT JOIN profile
+ON user.user_id=profile.profile_id where user.username = ?");
+$query -> bind_param("s" , $id);
 $result = $query ->execute();
 $rows = $query->get_result();
 $data = $rows->fetch_object();
 
-if ($data->user_id == null){
+
+$id1 = $_GET["user_id"];
+$query1 = $conn -> prepare("select * from profile where user_id = ?");
+$query1 -> bind_param("i" , $id1);
+$result1 = $query1 ->execute();
+$rows1 = $query1->get_result();
+$data1 = $rows1->fetch_object();
+
+if ($data1->user_id == null){
   $query = $conn->prepare("insert into profile(user_id) values(?)");
-  $query->bind_param("s",$id);
+  $query->bind_param("i",$id1);
   $result = $query->execute();
-  header("location:profile.php?user_id=$id");
+  header("location:profile.php?user_id=$id1");
 }
 
 
@@ -30,7 +42,7 @@ if ($data->user_id == null){
 	<title>My Profile</title>
 	<style>
 	.wrapper{
-        width:50%;
+        width:700px;
         padding:0px;
         margin:auto;
         }
@@ -100,9 +112,10 @@ if ($data->user_id == null){
 <body>
 <div class="wrapper">
 	<div class="header">
-		<p style="width:30%">Welcome, <b style="color:orange"><?php echo $_SESSION["username"] ?></b> </p>
+		<p style="width:30%">Welcome, <a href="content.php?user_id=<?php echo$data->user_id;?>" style="background:none;padding:0"><b style="color:orange"><?php echo $_SESSION["username"] ?></b></a> </p>
 		<div class="option" style="margin-top:-35px">
 			<a href="edit.php?user_id=<?php echo $data->user_id; ?>">Change Password</a>
+			<a href="profile.php?user_id=<?php echo $data->user_id;?>">Edit Profile</a>
 			<a href="logout.php">Logout</a>
 			<a href="delete.php?user_id=<?php echo $data->user_id;?>">Delete Acc</a>
 		</div>
@@ -111,34 +124,35 @@ if ($data->user_id == null){
 		<div class="titlename">
 			<div class="image">
 				<?php
-					if( $data->image == null || $data->image == "")
+					if( $data1->image == null || $data1->image == "")
 						$url_image="images/no.png";
 					else
-						$url_image="images/$data->first_name/$data->image";
+						$url_image="images/$data1->first_name/$data1->image";
 					?>
 				
 					<img src = '<?php echo $url_image ?>'>
 			</div>
 			<div class="name">
-				<p style="font-size:60px;text-align:center"><?php echo $data->first_name;?> <?php echo $data->last_name;?></p>
+				<p style="font-size:60px;text-align:center"><?php echo $data1->first_name;?> <?php echo $data1->last_name;?></p>
 				<hr style="border-color:orange;margin-top:-50px">
-				<p style="text-align:center;font-size:30px;margin-top:-1px"><?php echo $data->message;?></p>
+				<p style="text-align:center;font-size:30px;margin-top:-1px"><?php echo $data1->message;?></p>
 			</div>
 		</div>
 
-		<div class="edit" style="margin:auto;margin-top:70px;margin-left:230px">
-			<a href="profile.php?user_id=<?php echo $data->user_id;?>">Edit Profile</a>
+		<div class="edit" style="margin:auto;margin-top:70px;margin-left:235px">
+			<a href="friends.php?user_id=<?php echo $data->user_id?>">Find Friends</a>
 		</div>
 		<div class="about">
-		<p style="font-size:50px;text-align:center">About <?php echo $data->first_name;?></p>
+		<p style="font-size:50px;text-align:center">About <?php echo $data1->first_name;?></p>
 		<hr style="border-color:orange;margin-top:-50px;width:60%">
 			<div class="info">
-				<p style="font-size:30px">Birth Date : <?php echo $data->birth?></p>
-				<p style="font-size:30px">Address : <?php echo $data->address?></p>
-				<p style="font-size:30px">Hobby : <?php echo $data->hobby?></p>
-				<p style="font-size:30px">Education : <?php echo $data->education?></p>
-				<p style="font-size:30px">Email : <?php echo $data->email?></p>
-				<p style="font-size:30px">Telp : <?php echo $data->telp?></p>
+				<p style="font-size:30px">Birth Date : <?php echo $data1->birth?></p>
+				<p style="font-size:30px">Gender : <?php echo $data->gender?></p>
+				<p style="font-size:30px">Address : <?php echo $data1->address?></p>
+				<p style="font-size:30px">Hobby : <?php echo $data1->hobby?></p>
+				<p style="font-size:30px">Education : <?php echo $data1->education?></p>
+				<p style="font-size:30px">Email : <?php echo $data1->email?></p>
+				<p style="font-size:30px">Telp : <?php echo $data1->telp?></p>
 			</div>
 		</div>
 	</div>
