@@ -95,7 +95,15 @@ if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["g
     // jalankan query
     $result = $query->execute();
 
+    $query1 = $conn->prepare("select user_id from user where username=?");
+    $query1 -> bind_param("s",$username);
+    $result1 = $query1->execute();
+    $result2 = $query1->get_result();
+    $data = $result2 ->fetch_array(); 
 
+    $query2 = $conn->prepare("insert into profile(user_id) values(?)");
+    $query2->bind_param("i",$data["user_id"]);
+    $result3 = $query2->execute();
 
     if (! $result){
         echo"<div style='width:300px;margin:auto;margin-top:325px;'>";

@@ -87,8 +87,8 @@ if($result){
     $data = $rows->fetch_object();
     $image = $data->image;
     
-    if($image != null || file_exists("images/$data->first_name/$image"))
-    unlink("images/$data->first_name/$image");
+    if($image != null || file_exists("images/$data->profile_id - $data->first_name/$data->image"))
+    unlink("images/$data->profile_id - $data->first_name/$data->image");
         
     $query = $conn->prepare("delete from profile where profile_id=?");
     $query->bind_param("i",$id);

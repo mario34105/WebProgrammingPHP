@@ -138,8 +138,8 @@ if(isset($_FILES["image"])) {
 
     $image = $row->image;
 
-    if($image !=null && file_exists("images/$image")){
-      unlink("images/$image");
+    if($image !=null && file_exists("images/$profile_id - $first/$image")){
+      unlink("images/$profile_id - $first/$image");
     }
 
   //salin gambar yang diupload ke folder images
@@ -151,8 +151,8 @@ if(isset($_FILES["image"])) {
         $extension = new SplFileInfo($image["name"]);
         $extension = $extension -> getExtension();
         $file_gambar = $first . "." .$extension;
-        mkdir("images/$first");
-        copy($image["tmp_name"] , "images/$first/". $file_gambar);
+        mkdir("images/$profile_id - $first");
+        copy($image["tmp_name"] , "images/$profile_id - $first/". $file_gambar);
           }//2
       }//1
   }

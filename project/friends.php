@@ -1,10 +1,13 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Find Friends</title>
   <style>
   .wrapper{
-        width:50%;
+        width:700px;
         padding:0px;
         margin:auto;
         }
@@ -16,19 +19,20 @@
             background-size:cover;
         }
 
-        a{
+      a{
             font-family:Alcubierre;
             font-weight:bold;
             background:orange;
             color:white;
             border-radius:5px;
-            font-size:20px;
-            padding-top:5px;padding-bottom:5px;
-            padding-left:10px;padding-right:10px;
+            font-size:15px;
+            padding-top:5px;padding-bottom:5px;padding-left:25px;padding-right:25px;
             border:none;
             text-decoration:none;
         }
-
+        .option{
+      float:right;
+    }
         .footer{
           position:fixed;
           background:black;
@@ -56,19 +60,33 @@
 </head>
 <body>
 <?php
+
+$id = $_GET["user_id"];
 require_once"db.php";
 $conn = konek_db();
 
-$query = $conn->prepare("select * from profile");
+$query = $conn->prepare("select * from profile where user_id=?");
+$query->bind_param("i",$id);
 $result =  $query->execute();
 
 if(! $result)
   die("gagal query");
 
 $rows = $query -> get_result();
+$row = $rows->fetch_array();
+
+
 ?>
 <div class="wrapper">
-
+    <div class="header">
+    <p style="width:30%">Welcome, <a href="content.php?user_id=<?php echo $row['user_id'];?>" style="background:none;padding:0"><b style="color:orange"><?php echo $_SESSION["username"] ?></b></a> </p>
+    <div class="option" style="margin-top:-35px">   
+      <a href="edit.php?user_id=<?php echo $row['user_id']; ?>">Change Password</a>
+      <a href="profile.php?user_id=<?php echo $row['user_id'];?>">Edit Profile</a>
+      <a href="logout.php">Logout</a>
+      <a href="delete.php?user_id=<?php echo $data['user_id'];?>">Delete Acc</a>
+    </div>
+  </div>
     <div style="width:60%;margin:auto">
       <p style="font-size:50px;margin-top:140px;text-align:center"><b style="color:orange;">Find </b>Friends !
       <hr style="border-color:orange;margin-top:-40px">
@@ -78,18 +96,25 @@ $rows = $query -> get_result();
 <table>
 
 <?php
-while ($row = $rows->fetch_array()) {
+$query1 = $conn->prepare("select * from profile ");
+$result1 = $query1->execute();
 
-  if($row["image"] == null || $row["image"]=="")
+if(! $result1)
+  die("gagal query");
+
+$rows1 = $query1 -> get_result();
+
+while ($row1 = $rows1->fetch_array()) {
+  if($row1["image"] == null || $row1["image"]=="")
     $url_image = "images/no.png";
   else
-    $url_image = "images/".$row['first_name']."/". $row["image"];
+    $url_image = "images/".$row1['first_name']."/". $row1["image"];
 
   echo"<tr>";
   echo"<td style='width:200px'><img src=\"$url_image\"></td>";
-  echo"<td style='font-size:30px;width:300px'>" . $row['first_name']." ".$row['last_name']."</td>";
+  echo"<td style='font-size:30px;width:300px'>" . $row1['first_name']." ".$row1['last_name']."</td>";
  
-  echo"<td> <a href='content.php?user_id=" .$row['user_id'] . "'> Go </a>\n";
+  echo"<td> <a href='content.php?user_id=" .$row1['user_id'] . "'> Go </a>\n";
   echo"</tr>\n";
 }
 ?>

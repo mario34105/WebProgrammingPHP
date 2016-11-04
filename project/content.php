@@ -27,10 +27,7 @@ $result1 = $query1 ->execute();
 $rows1 = $query1->get_result();
 $data1 = $rows1->fetch_object();
 
-if ($data1->user_id == null){
-  $query = $conn->prepare("insert into profile(user_id) values(?)");
-  $query->bind_param("i",$id1);
-  $result = $query->execute();
+if ($data1->first_name == null){
   header("location:profile.php?user_id=$id1");
 }
 
@@ -127,7 +124,7 @@ if ($data1->user_id == null){
 					if( $data1->image == null || $data1->image == "")
 						$url_image="images/no.png";
 					else
-						$url_image="images/$data1->first_name/$data1->image";
+						$url_image="images/$data1->profile_id - $data1->first_name/$data1->image";
 					?>
 				
 					<img src = '<?php echo $url_image ?>'>
