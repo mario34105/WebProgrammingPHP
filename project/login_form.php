@@ -161,8 +161,8 @@ if (!isset($_POST["username"]) ||
 			</div>
 			<div style="margin-top:10px">
 				<label style="font-weight:bold;">gender :</label>
-				<input type="radio" name="gender" value="male" style="margin-left:27px;padding-right:33px;padding-top:2.5px;padding-bottom:2.5px">Male
-				<input type="radio" name="gender" value="female" style="margin-left:27px;padding-right:33px;padding-top:2.5px;padding-bottom:2.5px">Female
+				<input type="radio" name="gender" value="male" style="margin-left:27px;">Male
+				<input type="radio" name="gender" value="female" style="margin-left:27px;">Female
 			</div>
 			<div style="margin-top:10px;">
 				<label style="font-weight:bold;">Username :</label>

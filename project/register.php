@@ -105,6 +105,10 @@ if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["g
     $query2->bind_param("i",$data["user_id"]);
     $result3 = $query2->execute();
 
+    $query3= $conn->prepare("insert into talent(user_id) values(?)");
+    $query3->bind_param("i",$data["user_id"]);
+    $result4 = $query3->execute();
+
     if (! $result){
         echo"<div style='width:300px;margin:auto;margin-top:325px;'>";
         echo"<br>";

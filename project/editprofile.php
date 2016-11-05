@@ -92,6 +92,7 @@ $hobby = $_POST["hobby"];
 $education = $_POST["education"];
 $email = $_POST["email"];
 $telp = $_POST["telp"];
+$talent = $_POST["talent"];
 $profile_id = '';
 
 
@@ -125,6 +126,10 @@ if($telp==null){
 if($profile_id==''){
   $profile_id = $row->profile_id;
 }
+if($talent==''){
+  $talent = $row1->talent_name;
+}
+
 
 $file_gambar = "";
 
@@ -164,6 +169,11 @@ if(isset($_FILES["image"])) {
 $query = $conn->prepare("update profile set first_name=?,last_name=?,birth=?,message=?,address=?,hobby=?,education=?,email=?,telp=?,image=? where profile_id=?");
 $query->bind_param("ssssssssssi",$first,$last,$birth,$message,$address,$hobby,$education,$email,$telp,$file_gambar,$profile_id);
 $result = $query->execute();
+
+
+$query1 = $conn->prepare("update talent set talent_name=? where user_id=?");
+$query1->bind_param("si",$talent,$id);
+$result1 = $query1->execute();
 
 if($result){
   echo"<p style='font-size:50px;text-align:center;margin-top:250px;'>Profile User berhasil <b style='color:orange'>di update</b></p>";

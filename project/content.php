@@ -27,6 +27,12 @@ $result1 = $query1 ->execute();
 $rows1 = $query1->get_result();
 $data1 = $rows1->fetch_object();
 
+$query2 = $conn -> prepare("select * from talent where user_id = ?");
+$query2 -> bind_param("i", $id1);
+$result2 = $query2->execute();
+$rows2 = $query2->get_result();
+$data2 = $rows2->fetch_object();
+
 if ($data1->first_name == null){
   header("location:profile.php?user_id=$id1");
 }
@@ -88,7 +94,7 @@ if ($data1->first_name == null){
 			margin-left:270px;
 			margin-top:-230px;
 		}
-		.edit a{
+		.friends a{
 			background:none;
 			border: 1px solid white;
 			padding-left:50px;
@@ -97,12 +103,22 @@ if ($data1->first_name == null){
 			border-radius:10px;
 		}
 		.about{
-			margin-top:100px;
+			margin-top:80px;
 		}
 		.info{
 			width:400px;
 			margin:auto;
 			padding-bottom:100px;
+		}
+		.talent{
+			margin-top:100px;
+		}
+		.talent img{
+			margin-top:60px;
+			max-height: 200px;
+			max-width: 200px;
+			height:auto;
+			width:auto;
 		}
 	</style>
 </head>
@@ -136,9 +152,16 @@ if ($data1->first_name == null){
 			</div>
 		</div>
 
-		<div class="edit" style="margin:auto;margin-top:70px;margin-left:235px">
+		<div class="friends" style="margin:auto;margin-top:70px;margin-left:235px">
 			<a href="friends.php?user_id=<?php echo $data->user_id?>">Find Friends</a>
 		</div>
+
+		<div class="talent">
+		<p style="font-size:50px;text-align:center"><?php echo $data1->first_name;?>'s Talent</p>
+		<hr style="border-color:orange;margin-top:-50px;width:60%">
+		<img src="images/talent/<?php echo $data2->talent_name?>.png" style="margin-left:270px">
+		</div>
+
 		<div class="about">
 		<p style="font-size:50px;text-align:center">About <?php echo $data1->first_name;?></p>
 		<hr style="border-color:orange;margin-top:-50px;width:60%">
@@ -152,6 +175,8 @@ if ($data1->first_name == null){
 				<p style="font-size:30px">Telp : <?php echo $data1->telp?></p>
 			</div>
 		</div>
+
+		
 	</div>
 </div>
 	<div class="footer">

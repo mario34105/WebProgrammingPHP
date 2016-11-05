@@ -43,7 +43,7 @@ session_start();
           right:0px;
         }
         table{
-          margin-left:30px;
+          padding-bottom:100px;
         }
         tr,td{
           padding-top:50px;
@@ -96,8 +96,11 @@ $row = $rows->fetch_array();
 <table>
 
 <?php
-$query1 = $conn->prepare("select * from profile ");
+
+$query1 = $conn->prepare("select * from profile,talent where profile.user_id=talent.user_id && profile.user_id != $id");
 $result1 = $query1->execute();
+
+
 
 if(! $result1)
   die("gagal query");
@@ -105,16 +108,22 @@ if(! $result1)
 $rows1 = $query1 -> get_result();
 
 while ($row1 = $rows1->fetch_array()) {
-  if($row1["image"] == null || $row1["image"]=="")
+
+  if($row1["image"] == null || $row1["image"] == "")
     $url_image = "images/no.png";
   else
-    $url_image = "images/".$row1['first_name']."/". $row1["image"];
+    $url_image = "images/".$row1['profile_id']." - ".$row1['first_name']."/". $row1["image"];
+
+  if($row1["talent_name"] == null || $row1["talent_name"] == "")
+    $url_image1 = "images/talent/no.png";
+  else
+    $url_image1 = "images/talent/".$row1["talent_name"].".png";
 
   echo"<tr>";
   echo"<td style='width:200px'><img src=\"$url_image\"></td>";
-  echo"<td style='font-size:30px;width:300px'>" . $row1['first_name']." ".$row1['last_name']."</td>";
- 
-  echo"<td> <a href='content.php?user_id=" .$row1['user_id'] . "'> Go </a>\n";
+  echo"<td style='font-size:30px;width:250px'>" . $row1['first_name']." ".$row1['last_name']."</td>";
+  echo"<td style='width:150px'><img src=\"$url_image1\"></td>";
+  echo"<td> <a href='content.php?user_id=" .$row1['user_id'] . "' style='margin-left:-10px'> Go </a>\n";
   echo"</tr>\n";
 }
 ?>
