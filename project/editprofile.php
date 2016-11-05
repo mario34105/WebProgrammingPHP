@@ -49,6 +49,7 @@
 </div>
 
 <?php
+error_reporting(0);
 require_once "db.php";
 
 $conn = konek_db();
@@ -57,10 +58,9 @@ if(! isset($_GET["user_id"]))
     die("<p style='font-size:50px;text-align:center;margin-top:250px;'>Tidak ada <b style='color:orange'>id user !</b></p>");
 
 $id = $_GET["user_id"];
-$query = $conn -> prepare("select * from profile where user_id=?");
+$query = $conn -> prepare("select * from profile,talent where profile.user_id = talent.user_id && profile.user_id=?");
 $query->bind_param("i",$id);
 $result = $query->execute();
-
 
 
 
@@ -73,16 +73,6 @@ if($rows->num_rows==0)
     die("<p style='font-size:50px;text-align:center;margin-top:250px;'>User <b style='color:orange'>tidak ditemukan !</b></p>");
 
 
-if(! isset($_POST["first_name"]) ||
-   ! isset($_POST["last_name"]) ||
-   ! isset($_POST["birth"]) ||
-   ! isset($_POST["message"]) ||
-   ! isset($_POST["address"]) ||
-   ! isset($_POST["hobby"]) ||
-   ! isset($_POST["education"]) ||
-   ! isset($_POST["email"]) ||
-   ! isset($_POST["telp"]))
-    die("<p style='font-size:50px;text-align:center;margin-top:250px;'>Data Profile <b style='color:orange'>tidak lengkap !</b></p>");
 $first = $_POST["first_name"];
 $last = $_POST["last_name"];
 $birth = $_POST["birth"];
@@ -126,8 +116,8 @@ if($telp==null){
 if($profile_id==''){
   $profile_id = $row->profile_id;
 }
-if($talent==''){
-  $talent = $row1->talent_name;
+if($talent==null){
+  $talent = $row->talent_name;
 }
 
 
