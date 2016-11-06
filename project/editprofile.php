@@ -118,6 +118,8 @@ if($profile_id==''){
 }
 if($talent==null){
   $talent = $row->talent_name;
+  if($row->talent_name == null)
+    $talent = "no";
 }
 
 

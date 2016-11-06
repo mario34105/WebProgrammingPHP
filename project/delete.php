@@ -80,7 +80,7 @@ $result = $query->execute();
 
 
 if($result){
-    $query = $conn->prepare("select * from profile where profile_id=?");
+    $query = $conn->prepare("select * from profile,talent where profile.profile_id=talent.user.id && profile.profile_id=?");
     $query->bind_param("i",$id);
     $result = $query->execute();
     $rows = $query->get_result();

@@ -145,7 +145,6 @@ if (!isset($_POST["username"]) ||
 			
 		</div>
 		</form>
-
 		<div class="register" id="register" style="padding-top:5px">
 		<form method="post" action="register.php" enctype="multipart/form-data" style="margin-top:-40px">
 	<div class="title" style="text-align:center;">
