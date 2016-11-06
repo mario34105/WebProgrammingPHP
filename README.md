@@ -10,8 +10,9 @@ Social is a project of PHP Programming
 # Future development
 
 - "follow" feature
+- "post" feature
 - "home" section where you can see the person's posts that you follow
-- like & comment their post
+-  like & comment their post
 
 # Tools 
 
@@ -22,7 +23,7 @@ Social is a project of PHP Programming
 # Testing instruction
 
 - Create database 'project'.
-- Create tables (you can see at 'config' folder)
+- Create tables (you can see at 'testing' folder)
 - Default username & password for MySQL is 'root' and 'abc'.
 - The index page is  login_form.php.
 - Use Apache and MySQL to run application.
